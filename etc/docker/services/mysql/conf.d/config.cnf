@@ -1,0 +1,4 @@
+slow_query_log=0
+long_query_time=1000
+
+docker exec -i test-case-php7-mysql mysql --user=root --password=secret --force < dump.sql
