@@ -58,6 +58,34 @@ class CommentRepository extends Repository
         return $comments;
     }
 
+    public function addComment(string $body, int $topicId, int $parentId = null): int
+    {
+        $sql = "
+            INSERT INTO comments
+             SET topic_id = {$topicId},
+                parent_id = {$parentId},
+                body = '{$body}'";
+
+        $this->query($sql);
+
+        return (int)$this->lastInsertId();
+    }
+
+    public function getById(int $id)
+    {
+        $sql = "
+            SELECT id,
+                   parent_id,
+                   body,
+                   created_at as `createdAt`
+            FROM comments
+            WHERE id = {$id}";
+
+        return $this->createCommentOfArray(
+            $this->getRow($sql)
+        );
+    }
+
     private function createCommentOfArray(array $comment): Comment
     {
         $id = (int)$comment['id'];

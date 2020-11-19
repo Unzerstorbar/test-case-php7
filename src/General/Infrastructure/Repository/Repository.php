@@ -69,4 +69,9 @@ abstract class Repository
     {
         return $this->run($query, $args)->fetchAll();
     }
+
+    public function getRow(string $query, array $args = [])
+    {
+        return $this->run($query, $args)->fetch();
+    }
 }
