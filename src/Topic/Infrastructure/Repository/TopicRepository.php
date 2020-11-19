@@ -2,18 +2,19 @@
 
 namespace Topic\Infrastructure\Repository;
 
+use General\Infrastructure\Repository\Repository;
 use Topic\Domain\Entity\Comment;
 use Topic\Domain\Entity\Topic;
 
-class TopicRepository
+class TopicRepository extends Repository
 {
-    public static function create(): self
+    public function getById(int $id): Topic
     {
-        return new self();
-    }
+        $topic = Topic::create($id);
+        $topic->setComments(CommentRepository::create()->getByTopic($topic));
 
-    public function getById(int $id): ?Topic
-    {
+        return $topic;
+
         return Topic::create(
             $id,
             array(

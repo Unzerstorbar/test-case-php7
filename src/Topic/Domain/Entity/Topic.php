@@ -10,10 +10,10 @@ class Topic
 
     /**
      * @param int $id
-     * @param array $comments
+     * @param Comment[] $comments
      * @return static
      */
-    public static function create(int $id, array $comments): self
+    public static function create(int $id, array $comments = array()): self
     {
         return new self($id, $comments);
     }
@@ -35,5 +35,22 @@ class Topic
     public function getComments(): array
     {
         return $this->comments;
+    }
+
+    /**
+     * @param Comment[] $comments
+     */
+    public function setComments(array $comments): void
+    {
+        foreach ($comments as $comment) {
+            if ($comment instanceof Comment) {
+                $this->addComment($comment);
+            }
+        }
+    }
+
+    public function addComment(Comment $comment): void
+    {
+        $this->comments[] = $comment;
     }
 }

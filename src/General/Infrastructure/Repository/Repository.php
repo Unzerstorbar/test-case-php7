@@ -1,6 +1,6 @@
 <?php
 
-namespace Components\General\Repository;
+namespace General\Infrastructure\Repository;
 
 use PDO;
 use PDOException;
