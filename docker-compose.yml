@@ -25,6 +25,8 @@ services:
     container_name: ${PROJECT_NAME}-php-fpm
     networks:
       - test-case-network
+    depends_on:
+      - mysql
 
   php-cli:
     build:
