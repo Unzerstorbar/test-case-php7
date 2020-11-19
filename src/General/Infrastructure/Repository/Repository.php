@@ -32,7 +32,6 @@ abstract class Repository
                 ]
             );
         } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
         }
     }
 

@@ -5,7 +5,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use Topic\Presentation\Controller\TopicController;
 use Topic\Presentation\Presenter\CommentPresenter;
 
-$topic = TopicController::create()->getById(1);
+$topic = TopicController::create()->getById($_GET['topicId']);
 
 ?>
 
@@ -63,20 +63,23 @@ $topic = TopicController::create()->getById(1);
     </main>
 </body>
 
-<script>
-    var button = document.getElementById('add_comment'),
-        xmlhttp = new XMLHttpRequest();
-    button.addEventListener('click', function() {
-        var topicId  = document.getElementById('topicId').value.replace(/<[^>]+>/g,''),
-            parentId = document.getElementById('parentId').value.replace(/<[^>]+>/g,'');
-            text     = document.getElementById('text').value.replace(/<[^>]+>/g,'');
-        if(text === '') {
-            alert('Отправка пустого комментария безсмысленна!');
+<script type="text/javascript">
+    $(function () {
+        $("#send").click(function () {
+            var topic    = $("#topic").val();
+            var body     = $("#body").val();
+            var parentId = $("#parentId").val();
+            $.ajax({
+                type: "POST",
+                url: "sendMessage.php",
+                data: {"topicId": topic, "body": body, "parentId": parentId},
+                cache: false,
+                success: function (response) {
+                    $("#commentBlock").append(response);
+                }
+            });
             return false;
-        }
-        xmlhttp.open('post', '/../src/functions/add_comment.php', true);
-        xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xmlhttp.send("topicId=" + encodeURIComponent(topicId) + "&parentId=" + encodeURIComponent(parentId) + "&text=" + encodeURIComponent(text));
+        });
     });
 </script>
 
