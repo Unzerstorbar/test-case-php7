@@ -1,0 +1,53 @@
+version: '3.0'
+
+networks:
+  test-case-network:
+
+services:
+  nginx:
+    build:
+      context: ./etc/docker/services/nginx/build
+    volumes:
+      - .:/var/www/
+      - ./etc/docker/services/nginx/config/conf.d/:/etc/nginx/conf.d/
+    container_name: ${PROJECT_NAME}-nginx
+    restart: always
+    ports:
+      - "8081:80"
+    networks:
+      - test-case-network
+
+  php-fpm:
+    build:
+      context: ./etc/docker/services/php-fpm/build
+    volumes:
+      - .:/site
+    container_name: ${PROJECT_NAME}-php-fpm
+    networks:
+      - test-case-network
+
+  php-cli:
+    build:
+      context: ./etc/docker/services/php-cli/build
+    volumes:
+      - .:/site
+    container_name: ${PROJECT_NAME}-php-cli
+    networks:
+      - test-case-network
+
+  mysql:
+    build:
+      context: ./etc/docker/services/mysql/build
+    container_name: ${PROJECT_NAME}-mysql
+    ports:
+      - "${MYSQL_PORT}:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - test-case-network

@@ -1,0 +1,20 @@
+{
+  "name": "unzerstorbar/test-case-php7",
+  "description": "test case php 7",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "unzerstorbar",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "ext-mysqli": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Topic\\": "src/Topic/"
+    }
+  }
+}
