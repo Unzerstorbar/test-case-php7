@@ -10,11 +10,13 @@
     }
   ],
   "require": {
-    "ext-mysqli": "*"
+    "ext-mysqli": "*",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": {
-      "Topic\\": "src/Topic/"
+      "Topic\\": "src/Topic/",
+      "General\\": "src/General/"
     }
   }
 }
